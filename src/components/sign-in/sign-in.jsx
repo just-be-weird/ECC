@@ -18,10 +18,12 @@ export default class SignIn extends React.Component {
 	};
 
 	changeHandler = (e) => {
-		const { value, name } = e;
+		const { value, name } = e.target;
+		this.setState({ [name]: value });
 	};
 
 	render() {
+		const { email, password } = this.state;
 		return (
 			<div className='sign-in'>
 				<h2>I already have an account.</h2>
@@ -30,16 +32,16 @@ export default class SignIn extends React.Component {
 					<FormInput
 						type='email'
 						name='email'
-						value={this.state.email}
-						label='email'
+						value={email}
+						label='Email'
 						handleChange={this.changeHandler}
 						required
 					/>
 					<FormInput
 						type='password'
 						name='password'
-						value={this.state.password}
-						label='password'
+						value={password}
+						label='Password'
 						handleChange={this.changeHandler}
 						required
 					/>
