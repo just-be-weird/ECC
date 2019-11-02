@@ -1,17 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-
-const config = {
-	apiKey: 'AIzaSyArGUsCKX42LCU5bgBbTQh3ErMfcrVegB4',
-	authDomain: 'ecc-db.firebaseapp.com',
-	databaseURL: 'https://ecc-db.firebaseio.com',
-	projectId: 'ecc-db',
-	storageBucket: 'ecc-db.appspot.com',
-	messagingSenderId: '820185885519',
-	appId: '1:820185885519:web:62c809019384381084333a',
-	measurementId: 'G-RGPWG0X411'
-};
+import config from './Firebase.config';
 
 firebase.initializeApp(config);
 
