@@ -83,7 +83,8 @@ Now inside this file use `REACT_APP_NAME_OF_ENV_VAR=VAL` format. Every var needs
 go to console > database > test mode (NoSQL - Single Gigantic Central Object)
 
 # FireStore
-firebase firestore we either return `QueryReference` or `QuerySnapshot`
+
+We perform CRUD operation on documentRef objects. Firebase firestore we either return `QueryReference` or `QuerySnapshot`
 
 *QueryReference*-
 
