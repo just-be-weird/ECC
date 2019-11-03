@@ -9,7 +9,7 @@ import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon';
 import CartDropdown from '../cart-dropdown/cart-dropdown';
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, hidden }) => {
 	return (
 		<div className='header'>
 			<Link className='logo-container' to='/'>
@@ -33,13 +33,14 @@ const Header = ({ currentUser }) => {
 				)}
 				<CartIcon />
 			</div>
-			<CartDropdown />
+			{hidden ? null : <CartDropdown />}
 		</div>
 	);
 };
 //rdx9 define mapStateToProps | which gets the state object (combined rootReducer)
-const mapStateToProps = (state) => ({
-	currentUser: state.user.currentUser
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+	currentUser,
+	hidden
 });
 //rdx8 define proptype for props that we're receiving from the redux store
 Header.propTypes = {
