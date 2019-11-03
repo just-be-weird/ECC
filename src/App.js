@@ -62,7 +62,7 @@ const mapStateToProps = ({ user }) => ({
 */
 const mapDispatchToProps = (dispatch) => ({ setCurrentUser: (user) => dispatch(setCurrentUser(user)) }); //or use following method
 //rdx11 setup proptype
-App.proptTypes = {
+App.propTypes = {
 	setCurrentUser: PropTypes.func.isRequired
 };
 //rdx12 plug it with redux using connect
