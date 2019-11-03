@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './components/header/header';
 import SignInSignUpPage from './pages/auth/auth';
 import Homepage from './pages/homepage/homepage';
@@ -43,13 +43,20 @@ class App extends React.Component {
 				<Header />
 				<Switch>
 					<Route exact path='/' component={Homepage} />
-					<Route exact path='/signIn' component={SignInSignUpPage} />
+					<Route
+						exact
+						path='/signIn'
+						render={() => (this.props.currentUser ? <Redirect to='/' /> : <SignInSignUpPage />)}
+					/>
 					<Route exact path='/shop' component={ShopPage} />
 				</Switch>
 			</div>
 		);
 	}
 }
+const mapStateToProps = ({ user }) => ({
+	currentUser: user.currentUser
+});
 /*	//rdx10 mapDispatchToProps is a function receives the dispatch property
 		which dispatches the passed actionDispatcher action
 */
@@ -59,4 +66,4 @@ App.proptTypes = {
 	setCurrentUser: PropTypes.func.isRequired
 };
 //rdx12 plug it with redux using connect
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
