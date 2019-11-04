@@ -67,3 +67,33 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 # ECC
+
+# firebase commands
+
+* firebase login
+* firebase init
+* firebase deploy
+
+# Setup .env file
+To setup env variables create .env.[environmentname] eg. .env.development.local
+Now inside this file use `REACT_APP_NAME_OF_ENV_VAR=VAL` format. Every var needs to be prefixed with `REACT_APP_`. All the variables will be set on `process.env` from here we can use these variables inside the files.
+
+# Adding Firebase database to app
+
+go to console > database > test mode (NoSQL - Single Gigantic Central Object)
+
+# FireStore
+
+We perform CRUD operation on documentRef objects. Firebase firestore we either return `QueryReference` or `QuerySnapshot`
+
+*QueryReference*-
+
+The queryRef object doesn't have the actual data of the collection or document. It instead has properties that tell us details about it, or the method to get the Snapshot object which gives us the data we are looking for.
+firestore.doc('/users/:userId');
+firestore.collections('/users');
+It can be of two types-
+documentRef- used for CRUD -> this gives snapshot object
+collectionRef- gives collection snapshot
+
+*QuerySnapshot*-
+It allows us to check if a document exists at this query using the .exists prop which returns a boolean. We can also get back the data using .data() on this snapshot
