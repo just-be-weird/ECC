@@ -97,3 +97,6 @@ collectionRef- gives collection snapshot
 
 *QuerySnapshot*-
 It allows us to check if a document exists at this query using the .exists prop which returns a boolean. We can also get back the data using .data() on this snapshot
+
+## Reselect Library:
+To use reselet library `npm i reselect` modify the code/dir structure a bit to use the render optimization for selectors
