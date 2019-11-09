@@ -8,6 +8,9 @@ import './header.styles.scss';
 import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon';
 import CartDropdown from '../cart-dropdown/cart-dropdown';
+import { createStructuredSelector } from 'reselect';
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 const Header = ({ currentUser, hidden }) => {
 	return (
@@ -38,9 +41,13 @@ const Header = ({ currentUser, hidden }) => {
 	);
 };
 //rdx9 define mapStateToProps | which gets the state object (combined rootReducer)
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-	currentUser,
-	hidden
+// const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+// 	currentUser,
+// 	hidden
+// });//v2
+const mapStateToProps = createStructuredSelector({
+	currentUser: selectCurrentUser,
+	hidden: selectCartHidden
 });
 //rdx8 define proptype for props that we're receiving from the redux store
 Header.propTypes = {
