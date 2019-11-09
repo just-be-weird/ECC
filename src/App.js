@@ -5,10 +5,13 @@ import Header from './components/header/header';
 import SignInSignUpPage from './pages/auth/auth';
 import Homepage from './pages/homepage/homepage';
 import ShopPage from './pages/shop/shop';
+import Checkout from './pages/checkout/checkout';
 import './App.css';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { setCurrentUser } from './redux/user/user.action';
+import { selectCurrentUser } from './redux/user/user.selectors';
 
 class App extends React.Component {
 	unsubscribeFromAuth = null;
@@ -20,12 +23,12 @@ class App extends React.Component {
 			if (userAuth) {
 				const userRef = await createUserProfileDocument(userAuth);
 				//now check whether location is been updated with any new data if then set it on state
-				userRef.onSnapshot((snapshot) =>
+				userRef.onSnapshot((snapshot) => {
 					setCurrentUser({
 						id: snapshot.id,
 						...snapshot.data()
-					})
-				);
+					});
+				});
 			} else {
 				setCurrentUser(userAuth);
 			}
@@ -49,13 +52,14 @@ class App extends React.Component {
 						render={() => (this.props.currentUser ? <Redirect to='/' /> : <SignInSignUpPage />)}
 					/>
 					<Route exact path='/shop' component={ShopPage} />
+					<Route exact path='/checkout' component={Checkout} />
 				</Switch>
 			</div>
 		);
 	}
 }
-const mapStateToProps = ({ user }) => ({
-	currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+	currentUser: selectCurrentUser
 });
 /*	//rdx10 mapDispatchToProps is a function receives the dispatch property
 		which dispatches the passed actionDispatcher action
