@@ -100,3 +100,6 @@ It allows us to check if a document exists at this query using the .exists prop 
 
 ## Reselect Library:
 To use reselet library `npm i reselect` modify the code/dir structure a bit to use the render optimization for selectors
+
+*input selectors* - which gets whole state and returns just slice of it
+Important after defining the input selector always make sure that its been added to OUTPUT SELECTOR else setState won't be called and component will not be rendered.
