@@ -99,7 +99,13 @@ collectionRef- gives collection snapshot
 It allows us to check if a document exists at this query using the .exists prop which returns a boolean. We can also get back the data using .data() on this snapshot
 
 ## Reselect Library:
-To use reselet library `npm i reselect` modify the code/dir structure a bit to use the render optimization for selectors
+To use reselect library `npm i reselect` modify the code/dir structure a bit to use the render optimization for selectors
 
 *input selectors* - which gets whole state and returns just slice of it
 Important after defining the input selector always make sure that its been added to OUTPUT SELECTOR else setState won't be called and component will not be rendered.
+
+## Heroku Reference
+install [heroku cli](https://devcenter.heroku.com/articles/heroku-cli)
+then run shell command or respective to install heroku on machine
+*heroku login
+*heroku create ecc-avenue --buildpack https://github.com/mars/create-react-app-buildpack.git
