@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {ReactComponent as Logo} from '../../assets/crown.svg';
 import {connect} from 'react-redux';
-import {HeaderContainer, LogoContainer, OptionsContainer, OptionLink} from './header.styles';
+import {HeaderContainer, LogoContainer, OptionLink, OptionsContainer} from './header.styles';
 import {auth} from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon';
 import CartDropdown from '../cart-dropdown/cart-dropdown';
@@ -25,8 +25,8 @@ const Header = ({currentUser, hidden}) => {
         </OptionLink>
         {currentUser ? (
           /*here we are using as attribute to tell styled comp,
-					what type of link do we want*/
-          <OptionLink as={'div'} onClick={() => auth.signOut()}>
+					what type of link do we want. need to pass to, to resolve proptypes warning */
+          <OptionLink as={'div'} to={''} onClick={() => auth.signOut()}>
             SIGN OUT
           </OptionLink>
         ) : (
@@ -53,7 +53,7 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   hidden: selectCartHidden
 });
-//rdx8 define proptype for props that we're receiving from the redux store
+//rdx8 define proptypes for props that we're receiving from the redux store
 Header.propTypes = {
   currentUser: PropTypes.object
 };
