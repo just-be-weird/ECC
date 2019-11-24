@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {ReactComponent as Logo} from '../../assets/crown.svg';
 import {connect} from 'react-redux';
-import {HeaderContainer, LogoContainer, OptionsContainer, OptionDiv, OptionLink} from './header.styles';
+import {HeaderContainer, LogoContainer, OptionsContainer, OptionLink} from './header.styles';
 import {auth} from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon';
 import CartDropdown from '../cart-dropdown/cart-dropdown';
@@ -24,9 +24,11 @@ const Header = ({currentUser, hidden}) => {
           CONTACT
         </OptionLink>
         {currentUser ? (
-          <OptionDiv onClick={() => auth.signOut()}>
+          /*here we are using as attribute to tell styled comp,
+					what type of link do we want*/
+          <OptionLink as={'div'} onClick={() => auth.signOut()}>
             SIGN OUT
-          </OptionDiv>
+          </OptionLink>
         ) : (
           <OptionLink to='/signin'>
             SIGN IN
