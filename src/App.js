@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import Header from './components/header/header';
 import SignInSignUpPage from './pages/auth/auth';
 import Homepage from './pages/homepage/homepage';
