@@ -1,25 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import Header from './components/header/header';
 import SignInSignUpPage from './pages/auth/auth';
 import Homepage from './pages/homepage/homepage';
 import ShopPage from './pages/shop/shop';
 import Checkout from './pages/checkout/checkout';
 import './App.css';
-import {addCollectionAndDocuments, auth, createUserProfileDocument} from './firebase/firebase.utils';
+import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {setCurrentUser} from './redux/user/user.action';
 import {selectCurrentUser} from './redux/user/user.selectors';
-import collection from './pages/collection/collection';
-import {selectCollectionsForPreview} from './redux/shop/shop.selectors';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const {setCurrentUser, collectionsArray} = this.props;
+    const {setCurrentUser} = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       //if user exists get their ref else set it null as firebase returns null if user not exists
       if (userAuth) {
@@ -34,7 +32,6 @@ class App extends React.Component {
       } else {
         setCurrentUser(userAuth);
       }
-      await addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})));
     });
   }
 
@@ -63,8 +60,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-  collectionsArray: selectCollectionsForPreview
+  currentUser: selectCurrentUser
 });
 /*	//rdx10 mapDispatchToProps is a function receives the dispatch property
 		which dispatches the passed actionDispatcher action

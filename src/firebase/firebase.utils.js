@@ -2,7 +2,6 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import config from './Firebase.config';
-import collection from '../pages/collection/collection';
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
@@ -34,7 +33,24 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     const newDocRef = collectionRef.doc();
     batch.set(newDocRef, obj);//batching the calls if anyone of calls gets failed, entire request will be rejected
   });
-  return await batch.commit();
+  return await batch.commit();//it resolves to void value
+};
+
+export const convertCollectionsSnapshotToMap = collections => {
+  const transformedCollection = collections.docs.map(doc => {
+    const {title, items} = doc.data();
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items
+    };
+  });
+
+  return transformedCollection.reduce((acc, collectionObj) => {
+    acc[collectionObj.title.toLowerCase()] = collectionObj;
+    return acc;
+  }, {});
 };
 
 firebase.initializeApp(config);
