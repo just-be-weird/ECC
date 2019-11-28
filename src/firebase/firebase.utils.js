@@ -4,26 +4,53 @@ import 'firebase/auth';
 import config from './Firebase.config';
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
-	if (!userAuth) return;
-	const userRef = firestore.doc(`users/${userAuth.uid}`);
-	const snapShot = await userRef.get();
+  if (!userAuth) return;
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  const snapShot = await userRef.get();
 
-	if (!snapShot.exists) {
-		const { displayName, email } = userAuth;
-		const createdAt = new Date();
+  if (!snapShot.exists) {
+    const {displayName, email} = userAuth;
+    const createdAt = new Date();
 
-		try {
-			await userRef.set({
-				displayName,
-				email,
-				createdAt,
-				...additionalData
-			});
-		} catch (err) {
-			console.log('Error while creating user, ', err.message);
-		}
-	}
-	return userRef;
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData
+      });
+    } catch (err) {
+      console.log('Error while creating user, ', err.message);
+    }
+  }
+  return userRef;
+};
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);//get a collection ref using passed collectionKey
+  const batch = firestore.batch();//makes sure that entire operation is successful not partially
+  objectsToAdd.forEach(obj => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);//batching the calls if anyone of calls gets failed, entire request will be rejected
+  });
+  return await batch.commit();//it resolves to void value
+};
+
+export const convertCollectionsSnapshotToMap = collections => {
+  const transformedCollection = collections.docs.map(doc => {
+    const {title, items} = doc.data();
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items
+    };
+  });
+
+  return transformedCollection.reduce((acc, collectionObj) => {
+    acc[collectionObj.title.toLowerCase()] = collectionObj;
+    return acc;
+  }, {});
 };
 
 firebase.initializeApp(config);
@@ -32,7 +59,7 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
+provider.setCustomParameters({prompt: 'select_account'});
 
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
