@@ -18,9 +18,9 @@ const ShopPage = ({match, updateCollections}) => {
   // let unsubscribeFromSnapshot = null;
   useEffect(() => {
     const collectionRef = firestore.collection('collections');
-    collectionRef.onSnapshot(async snapshot => {
+    //Promise Pattern
+    collectionRef.get().then(snapshot => {
       const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-      console.log('snapshot: ', collectionsMap);
       updateCollections(collectionsMap);
       setLoading(false);
     });
@@ -28,7 +28,8 @@ const ShopPage = ({match, updateCollections}) => {
 
   return (
     <div className='shop-page'>
-      <Route exact path={`${match.path}`} render={(props) => <CollectionsOverviewWithSpinner isLoading={loading} {...props} />}/>
+      <Route exact path={`${match.path}`}
+             render={(props) => <CollectionsOverviewWithSpinner isLoading={loading} {...props} />}/>
       <Route path={`${match.path}/:collectionId`}
              render={(props) => <CollectionPageWithSpinner isLoading={loading} {...props} />}/>
     </div>
